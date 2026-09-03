@@ -1,4 +1,4 @@
-# Quantum Data Management Paper Navigator
+# Quantum Database Management Research
 
 An open, searchable collection of research at the intersection of quantum computing and data management.
 
