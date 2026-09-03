@@ -46,7 +46,9 @@
     authorOptions.innerHTML = authorNames.filter(a => !q || a.toLowerCase().includes(q)).map(a => `<label class="author-option"><input type="checkbox" value="${escapeHtml(a)}" ${selectedAuthors.has(a) ? 'checked' : ''}><span>${escapeHtml(a)}</span></label>`).join('');
     authorOptions.querySelectorAll('input').forEach(box => box.addEventListener('change', () => {
       box.checked ? selectedAuthors.add(box.value) : selectedAuthors.delete(box.value);
+      authorSearch.value = '';
       authorSummary.textContent = selectedAuthors.size ? `${selectedAuthors.size} author${selectedAuthors.size === 1 ? '' : 's'} selected` : 'All authors';
+      renderAuthorOptions();
       renderList();
     }));
   }
@@ -75,12 +77,16 @@
     const problem = problemSelect.value;
     const venue = venueSelect.value;
     const q = searchInput.value.trim().toLowerCase();
+    const authorQuery = authorSearch.value.trim().toLocaleLowerCase();
     return papers.filter(p => {
       const venueOk = venue === 'all' ||
         (venue.startsWith('family:') && venueFamily(p) === venue.slice(7)) ||
         (venue.startsWith('edition:') && `${venueFamily(p)}|${p.year}` === venue.slice(8)) ||
         (venue.startsWith('workshop:') && workshopName(p) === venue.slice(9));
-      const authorOk = !selectedAuthors.size || [...selectedAuthors].some(a => p.authors.toLocaleLowerCase().includes(a.toLocaleLowerCase()));
+      const normalizedAuthors = p.authors.toLocaleLowerCase();
+      const authorOk = selectedAuthors.size
+        ? [...selectedAuthors].some(a => normalizedAuthors.includes(a.toLocaleLowerCase()))
+        : !authorQuery || normalizedAuthors.includes(authorQuery);
       const advancedOk = Object.entries(selectedAdvanced).every(([key, selected]) => !selected.size || [...selected].some(value => (p[key] || []).includes(value)));
       const problemOk = problem === 'all' || (p.databaseProblems || []).includes(problem);
       return (area === 'all' || (p.areas || [p.area]).includes(area)) && problemOk && venueOk && authorOk && advancedOk && (!q || `${p.title} ${p.authors} ${p.venue} ${p.year} ${(p.areas||[]).join(' ')} ${(p.databaseProblems||[]).join(' ')} ${(p.paradigms||[]).join(' ')} ${(p.algorithms||[]).join(' ')} ${(p.platforms||[]).join(' ')}`.toLowerCase().includes(q));
@@ -92,6 +98,7 @@
     problemSelect.value = 'all';
     venueSelect.value = 'all';
     searchInput.value = '';
+    authorSearch.value = '';
     selectedAuthors.clear();
     Object.values(selectedAdvanced).forEach(set => set.clear());
     authorSummary.textContent = 'All authors';
@@ -107,6 +114,7 @@
     if (problemSelect.value !== 'all') chips.push({type:'problem', label:`Problem: ${problemSelect.value}`});
     if (venueSelect.value !== 'all') chips.push({type:'venue', label:`Venue: ${venueSelect.options[venueSelect.selectedIndex]?.text || venueSelect.value}`});
     selectedAuthors.forEach(value => chips.push({type:'author', value, label:`Author: ${value}`}));
+    if (!selectedAuthors.size && authorSearch.value.trim()) chips.push({type:'authorQuery', label:`Author search: ${authorSearch.value.trim()}`});
     Object.entries(selectedAdvanced).forEach(([group, values]) => values.forEach(value => chips.push({type:'advanced', group, value, label:`${advancedLabels[group]}: ${value}`})));
     if (searchInput.value.trim()) chips.push({type:'search', label:`Search: “${searchInput.value.trim()}”`});
     if (!chips.length) {
@@ -121,6 +129,10 @@
       if (chip.type === 'problem') problemSelect.value = 'all';
       if (chip.type === 'venue') venueSelect.value = 'all';
       if (chip.type === 'search') searchInput.value = '';
+      if (chip.type === 'authorQuery') {
+        authorSearch.value = '';
+        renderAuthorOptions();
+      }
       if (chip.type === 'author') {
         selectedAuthors.delete(chip.value);
         authorSummary.textContent = selectedAuthors.size ? `${selectedAuthors.size} author${selectedAuthors.size === 1 ? '' : 's'} selected` : 'All authors';
@@ -191,8 +203,8 @@
   areaSelect.addEventListener('change', renderList);
   problemSelect.addEventListener('change', renderList);
   venueSelect.addEventListener('change', renderList);
-  authorSearch.addEventListener('input', renderAuthorOptions);
-  clearAuthors.addEventListener('click', () => { selectedAuthors.clear(); authorSummary.textContent = 'All authors'; renderAuthorOptions(); renderList(); });
+  authorSearch.addEventListener('input', () => { renderAuthorOptions(); renderList(); });
+  clearAuthors.addEventListener('click', () => { selectedAuthors.clear(); authorSearch.value = ''; authorSummary.textContent = 'All authors'; renderAuthorOptions(); renderList(); });
   clearAdvanced.addEventListener('click', () => { Object.values(selectedAdvanced).forEach(set => set.clear()); advancedSummary.textContent = 'Advanced quantum filters'; renderAdvancedGroups(); renderList(); });
   searchInput.addEventListener('input', renderList);
   renderList();
