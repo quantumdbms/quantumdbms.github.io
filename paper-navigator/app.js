@@ -170,7 +170,7 @@
       <div class="metadata-tags">${[...(paper.publicationTypes||[]), ...(paper.paradigms||[]), ...(paper.algorithms||[]), ...(paper.platforms||[])].map(tag => `<span>${escapeHtml(tag)}</span>`).join('')}</div>
       <h3>${escapeHtml(paper.abstractLabel || 'Abstract')}</h3>
       <div class="abstract">${escapeHtml(paper.abstract)}</div>
-      <a class="pdf-link" href="${encodeURI(paper.pdf)}" target="_blank" rel="noopener">${escapeHtml(paper.linkLabel || 'Open local PDF ↗')}</a>
+      <a class="pdf-link" href="${encodeURI(paper.pdf)}" target="_blank" rel="noopener">Access PDF ↗</a>
       <h3>Personal notes</h3>
       <textarea id="notes" placeholder="Connections, slide ideas, questions, quotations…"></textarea>
       <p class="note-status" id="noteStatus">Notes are saved automatically in this browser.</p>`;
