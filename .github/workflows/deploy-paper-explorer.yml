@@ -1,0 +1,50 @@
+name: Deploy Paper Explorer to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "paper-navigator/**"
+      - "Quantum_DB_Papers/**"
+      - "scripts/build-paper-explorer-pages.sh"
+      - "scripts/copy-catalog-pdfs.mjs"
+      - ".github/workflows/deploy-paper-explorer.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v6
+
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5
+
+      - name: Build static site
+        run: bash scripts/build-paper-explorer-pages.sh
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: _site
+
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

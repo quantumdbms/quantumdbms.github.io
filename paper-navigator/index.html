@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Quantum Data Management Paper Navigator</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header>
+    <div>
+      <h1>Quantum Data Management<br>Paper Navigator</h1>
+      <p class="maintainer">Maintained by <a href="https://research.ibm.com/people/manish-kesarwani" target="_blank" rel="noopener noreferrer">Manish Kesarwani ↗</a></p>
+    </div>
+    <div class="count"><strong id="visibleCount">0</strong><span>papers in view</span></div>
+  </header>
+
+  <main>
+    <aside>
+      <label for="areaSelect">Research area</label>
+      <select id="areaSelect"></select>
+      <label for="problemSelect">Database problem</label>
+      <select id="problemSelect"></select>
+      <label for="venueSelect">Venue or edition</label>
+      <select id="venueSelect"></select>
+      <label>Authors</label>
+      <details class="author-picker" id="authorPicker">
+        <summary id="authorSummary">All authors</summary>
+        <div class="author-picker-panel">
+          <input id="authorSearch" type="search" placeholder="Find Manish, Immanuel, Sabek…">
+          <div class="author-actions"><button id="clearAuthors" type="button">Clear selection</button></div>
+          <div id="authorOptions" class="author-options"></div>
+        </div>
+      </details>
+      <details class="advanced-filter" id="advancedFilter">
+        <summary id="advancedSummary">Advanced quantum filters</summary>
+        <div class="advanced-panel">
+          <div class="advanced-head"><span>Combine dimensions</span><button id="clearAdvanced" type="button">Clear all</button></div>
+          <div id="advancedGroups"></div>
+        </div>
+      </details>
+      <label for="searchInput">Find a paper</label>
+      <input id="searchInput" type="search" placeholder="Title, first name, surname, venue…">
+      <div id="activeFilters" class="active-filters" aria-live="polite"></div>
+      <div id="paperList" class="paper-list" aria-label="Papers"></div>
+    </aside>
+
+    <article id="detail" aria-live="polite">
+      <div class="empty">Select a paper to inspect it.</div>
+    </article>
+  </main>
+
+  <script src="papers-data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
