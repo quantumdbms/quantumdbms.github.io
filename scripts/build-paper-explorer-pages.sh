@@ -16,6 +16,8 @@ cp "$repo_root/paper-navigator/index.html" "$site_dir/index.html"
 cp "$repo_root/paper-navigator/styles.css" "$site_dir/styles.css"
 cp "$repo_root/paper-navigator/app.js" "$site_dir/app.js"
 cp "$repo_root/paper-navigator/papers-data.js" "$site_dir/papers-data.js"
+mkdir -p "$site_dir/paper-navigator"
+cp "$repo_root/static/paper-navigator/index.html" "$site_dir/paper-navigator/index.html"
 node "$repo_root/scripts/copy-catalog-pdfs.mjs" "$repo_root" "$site_dir"
 
 # The local navigator lives one directory below the paper library. On Pages,
