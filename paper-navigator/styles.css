@@ -21,9 +21,9 @@ h1 { margin: 0; font-size: clamp(28px, 3.2vw, 42px); line-height: 1.04; letter-s
 main { display: grid; grid-template-columns: minmax(340px, 390px) 1fr; min-height: calc(100vh - 116px); }
 aside { padding: 24px 28px; border-right: 1px solid var(--line); background: var(--panel); }
 label { display: block; margin: 0 0 7px; color: var(--muted); font-size: 12px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
-select, input, textarea { width: 100%; color: var(--ink); background: var(--paper); border: 1px solid var(--line); border-radius: 8px; font: inherit; }
+select, input { width: 100%; color: var(--ink); background: var(--paper); border: 1px solid var(--line); border-radius: 8px; font: inherit; }
 select, input { height: 44px; padding: 0 12px; margin-bottom: 18px; }
-select:focus, input:focus, textarea:focus { outline: 3px solid color-mix(in srgb, var(--cyan) 25%, transparent); border-color: var(--cyan); }
+select:focus, input:focus { outline: 3px solid color-mix(in srgb, var(--cyan) 25%, transparent); border-color: var(--cyan); }
 .author-picker { position: relative; margin: 0 0 18px; }
 .author-picker summary { list-style: none; min-height: 44px; padding: 11px 36px 10px 12px; border: 1px solid var(--line); border-radius: 8px; background: var(--paper); cursor: pointer; }
 .author-picker summary::-webkit-details-marker { display: none; }
@@ -79,8 +79,6 @@ h3 { margin: 28px 0 9px; font-size: 13px; letter-spacing: .09em; text-transform:
 .abstract { max-width: 850px; font-family: ui-serif, Georgia, serif; font-size: 17px; line-height: 1.7; }
 .pdf-link { display: inline-flex; align-items: center; gap: 9px; margin-top: 26px; padding: 11px 16px; color: white; background: var(--cyan); border-radius: 8px; font-weight: 800; text-decoration: none; }
 .pdf-link:hover { filter: brightness(.93); }
-textarea { min-height: 140px; padding: 13px; resize: vertical; line-height: 1.5; }
-.note-status { min-height: 21px; margin: 6px 0 0; color: var(--muted); font-size: 12px; }
 @media (max-width: 760px) {
   header { align-items: start; }
   .count span { display: none; }

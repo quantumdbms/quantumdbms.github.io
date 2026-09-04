@@ -172,7 +172,6 @@
       detail.innerHTML = '<div class="empty">Select a paper to inspect it.</div>';
       return;
     }
-    const noteKey = `quantum-paper-note:${paper.id}`;
     detail.innerHTML = `
       <div class="area-tags">${(paper.areas || [paper.area]).map(area => `<span class="area">${escapeHtml(area)}</span>`).join('')}</div>
       <h2>${escapeHtml(paper.title)}</h2>
@@ -182,22 +181,7 @@
       <div class="metadata-tags">${[...(paper.publicationTypes||[]), ...(paper.paradigms||[]), ...(paper.algorithms||[]), ...(paper.platforms||[])].map(tag => `<span>${escapeHtml(tag)}</span>`).join('')}</div>
       <h3>${escapeHtml(paper.abstractLabel || 'Abstract')}</h3>
       <div class="abstract">${escapeHtml(paper.abstract)}</div>
-      <a class="pdf-link" href="${encodeURI(paper.pdf)}" target="_blank" rel="noopener">Access PDF ↗</a>
-      <h3>Personal notes</h3>
-      <textarea id="notes" placeholder="Connections, slide ideas, questions, quotations…"></textarea>
-      <p class="note-status" id="noteStatus">Notes are saved automatically in this browser.</p>`;
-    const notes = document.getElementById('notes');
-    const status = document.getElementById('noteStatus');
-    notes.value = localStorage.getItem(noteKey) || '';
-    let timer;
-    notes.addEventListener('input', () => {
-      clearTimeout(timer);
-      status.textContent = 'Saving…';
-      timer = setTimeout(() => {
-        localStorage.setItem(noteKey, notes.value);
-        status.textContent = 'Saved locally.';
-      }, 250);
-    });
+      <a class="pdf-link" href="${encodeURI(paper.pdf)}" target="_blank" rel="noopener">Access PDF ↗</a>`;
   }
 
   areaSelect.addEventListener('change', renderList);

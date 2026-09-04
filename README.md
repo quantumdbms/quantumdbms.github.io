@@ -12,5 +12,3 @@ The website is published at <https://quantumdbms.github.io>.
 bash scripts/build-paper-explorer-pages.sh
 python3 -m http.server 8000 --directory _site
 ```
-
-Personal notes are stored locally in each visitor's browser and are not uploaded to the website.
